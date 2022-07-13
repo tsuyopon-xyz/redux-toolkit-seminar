@@ -1,11 +1,11 @@
 import { FC } from 'react';
-import type { RootState } from '../../app/store';
-import { useSelector, useDispatch } from 'react-redux';
-import { decrement, increment } from './counterSlice';
+import { useAppSelector, useAppDispatch } from '@/src/app/hooks';
+import { decrement, increment, selectCount } from './counterSlice';
 
 export const Counter: FC = () => {
-  const count = useSelector((state: RootState) => state.counter.value);
-  const dispatch = useDispatch();
+  // const count = useAppSelector((state) => state.counter.value);
+  const count = useAppSelector(selectCount);
+  const dispatch = useAppDispatch();
 
   return (
     <div>
