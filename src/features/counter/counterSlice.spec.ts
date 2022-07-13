@@ -8,7 +8,6 @@ import counterReducer, {
   selectCount,
   CounterState,
 } from './counterSlice';
-import * as counterAPI from './counterAPI';
 import type { RootState } from '@/src/app/store';
 
 describe('counter reducer', () => {

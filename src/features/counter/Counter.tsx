@@ -1,6 +1,12 @@
 import { FC } from 'react';
 import { useAppSelector, useAppDispatch } from '@/src/app/hooks';
-import { decrement, increment, selectCount } from './counterSlice';
+import {
+  decrement,
+  increment,
+  incrementAsync,
+  incrementByAmount,
+  selectCount,
+} from './counterSlice';
 
 export const Counter: FC = () => {
   // const count = useAppSelector((state) => state.counter.value);
@@ -10,18 +16,14 @@ export const Counter: FC = () => {
   return (
     <div>
       <div>
-        <button
-          aria-label="Increment value"
-          onClick={() => dispatch(increment())}
-        >
-          Increment
-        </button>
+        <button onClick={() => dispatch(increment())}>Increment</button>
         <span>{count}</span>
-        <button
-          aria-label="Decrement value"
-          onClick={() => dispatch(decrement())}
-        >
-          Decrement
+        <button onClick={() => dispatch(decrement())}>Decrement</button>
+        <button onClick={() => dispatch(incrementAsync(10))}>
+          Increment Async by 10
+        </button>
+        <button onClick={() => dispatch(incrementByAmount(5))}>
+          Increment by 5
         </button>
       </div>
     </div>

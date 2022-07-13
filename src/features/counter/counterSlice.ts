@@ -64,6 +64,7 @@ export const incrementAsync = createAsyncThunk<number, number>(
   `${counterSlice.name}/asyncCount`,
   async (amount: number, _thunkAPI) => {
     const response = await fetchCount(amount);
+    // throw new Error('hoo');
     return response.data;
   }
 );
