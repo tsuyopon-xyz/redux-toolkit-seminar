@@ -1,19 +1,27 @@
+import { SerializedError } from '@reduxjs/toolkit';
 import counterReducer, {
   increment,
   decrement,
   incrementByAmount,
+  incrementAsync,
   counterSlice,
   selectCount,
+  CounterState,
 } from './counterSlice';
+import * as counterAPI from './counterAPI';
 import type { RootState } from '@/src/app/store';
 
 describe('counter reducer', () => {
-  const initialState = {
+  const initialState: CounterState = {
     value: 3,
+    status: 'idle',
+    error: null,
   };
   it('should handle initial state', () => {
     expect(counterReducer(undefined, { type: 'unknown' })).toEqual({
       value: 0,
+      status: 'idle',
+      error: null,
     });
   });
 
@@ -49,9 +57,74 @@ describe('counter selector', () => {
     const state: RootState = {
       counter: {
         value: 100,
+        status: 'idle',
+        error: null,
       },
     };
 
     expect(selectCount(state)).toEqual(100);
+  });
+});
+
+describe('counter async thunk', () => {
+  it('sets loading state when pending', async () => {
+    const state: CounterState = {
+      value: 0,
+      status: 'idle',
+      error: null,
+    };
+
+    const action = {
+      type: incrementAsync.pending.type,
+    };
+
+    const newState = counterReducer(state, action);
+    expect(newState).toEqual({
+      value: 0,
+      status: 'loading',
+      error: null,
+    });
+  });
+
+  it('sets status idle and increment value when fulfilled', async () => {
+    const state: CounterState = {
+      value: 0,
+      status: 'loading',
+      error: null,
+    };
+
+    const action = {
+      type: incrementAsync.fulfilled.type,
+      payload: 123,
+    };
+
+    const newState = counterReducer(state, action);
+    expect(newState).toEqual({
+      value: 123,
+      status: 'idle',
+      error: null,
+    });
+  });
+
+  it('sets status idle and error with error object.', async () => {
+    const state: CounterState = {
+      value: 0,
+      status: 'loading',
+      error: null,
+    };
+
+    const action = {
+      type: incrementAsync.rejected.type,
+      error: {
+        message: 'Rejected!',
+      } as SerializedError,
+    };
+
+    const newState = counterReducer(state, action);
+    expect(newState).toEqual({
+      value: 0,
+      status: 'idle',
+      error: action.error,
+    });
   });
 });
