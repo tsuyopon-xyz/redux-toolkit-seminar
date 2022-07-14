@@ -2,13 +2,15 @@ import todoReducer, {
   add,
   update,
   remove,
+  selectTodos,
   TodoState,
   TodoUpdatePayload,
 } from './todosSlice';
 import { TodoCollection } from '@/src/features/todos/todo.collection';
-import { TodoInput } from './todo.entity';
+import { TodoEntity, TodoInput } from './todo.entity';
+import { RootState } from '@/src/app/store';
 
-describe('todo reducer', () => {
+describe('todos reducer', () => {
   it('should handle initial state', () => {
     expect(todoReducer(undefined, { type: 'unknown' })).toEqual({
       collection: new TodoCollection(),
@@ -79,5 +81,31 @@ describe('todo reducer', () => {
     const entity = stateAfterRemove.collection.findById(targetTodoId);
     expect(entity).toEqual(undefined);
     expect(stateAfterRemove.collection.findAll().length).toEqual(0);
+  });
+});
+
+describe('todos selector', () => {
+  it('should return todo entities that is not soft-deleted by the selectTodos function', () => {
+    const todoCollection = new TodoCollection();
+    const numberOfTodos = 3;
+    for (let i = 0; i < numberOfTodos; i++) {
+      todoCollection.add({
+        title: 'title' + i,
+        body: 'body' + i,
+      });
+    }
+
+    const state = {
+      todos: {
+        collection: todoCollection,
+      },
+    } as RootState;
+
+    const selectedTodos = selectTodos(state);
+
+    expect(selectedTodos.length).toEqual(numberOfTodos);
+    expect(selectedTodos[0] instanceof TodoEntity).toEqual(true);
+    expect(selectedTodos[0].title).toEqual('title0');
+    expect(selectedTodos[0].body).toEqual('body0');
   });
 });

@@ -36,6 +36,7 @@ export const todoSlice = createSlice({
 
 export const { add, update, remove } = todoSlice.actions;
 
-export const selectCount = (state: RootState) => state.counter.value;
+export const selectTodos = (state: RootState) =>
+  state.todos.collection.findAll();
 
 export default todoSlice.reducer;
