@@ -21,4 +21,11 @@ export default {
   },
 
   transformIgnorePatterns: ['<rootDir>/node_modules/'],
+
+  // https://blog.mitsuruog.info/2019/06/jest-module-name-mapper
+  // https://qiita.com/nju33/items/8ed1823690b0348daaa7
+  // https://jestjs.io/docs/configuration#modulenamemapper-objectstring-string--arraystring
+  moduleNameMapper: {
+    '^@/src/(.*)': '<rootDir>/src/$1',
+  },
 };
