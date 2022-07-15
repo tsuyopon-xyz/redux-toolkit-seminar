@@ -21,7 +21,7 @@ export class TodoCollection {
       status: entity.status,
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
-      deleteAt: entity.deleteAt,
+      deletedAt: entity.deleteAt,
     });
   }
 
@@ -62,7 +62,7 @@ export class TodoCollection {
 
     const deletedEntity = new TodoEntity({
       ...entity,
-      deleteAt: getCurrentDateTime(),
+      deletedAt: getCurrentDateTime(),
     });
     this._entities[index] = deletedEntity;
 

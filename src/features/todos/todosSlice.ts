@@ -1,20 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '@/src/app/store';
-import { TodoCollection } from './todo.collection';
-import type { TodoInput, TodoId } from './todo.entity';
+import {
+  TodoInput,
+  TodoId,
+  TodoEntityType,
+  createTodoEntity,
+} from './todo.entity';
+import { getCurrentDateTime } from '@/src/utils/date';
 
 export type TodoState = {
-  collection: TodoCollection;
+  entities: TodoEntityType[];
 };
 
 export type TodoUpdatePayload = {
   id: TodoId;
-  input: TodoInput;
+  input: Partial<TodoInput>;
 };
 
 const initialState: TodoState = {
-  collection: new TodoCollection(),
+  entities: [],
 };
 
 export const todoSlice = createSlice({
@@ -22,14 +27,31 @@ export const todoSlice = createSlice({
   initialState,
   reducers: {
     add: (state, action: PayloadAction<TodoInput>) => {
-      state.collection.add(action.payload);
+      const entity = createTodoEntity(action.payload);
+      state.entities.push(entity);
     },
     update: (state, action: PayloadAction<TodoUpdatePayload>) => {
       const { id, input } = action.payload;
-      state.collection.updateById(id, input);
+      const index = state.entities.findIndex((_entity) => _entity.id === id);
+      const entity = state.entities[index];
+      if (!entity) return;
+
+      state.entities[index] = {
+        ...entity,
+        ...input,
+        updatedAt: getCurrentDateTime(),
+      };
     },
     remove: (state, action: PayloadAction<TodoId>) => {
-      state.collection.removeById(action.payload);
+      const id = action.payload;
+      const index = state.entities.findIndex((_entity) => _entity.id === id);
+      const entity = state.entities[index];
+      if (!entity) return;
+
+      state.entities[index] = {
+        ...entity,
+        deletedAt: getCurrentDateTime(),
+      };
     },
   },
 });
@@ -37,6 +59,14 @@ export const todoSlice = createSlice({
 export const { add, update, remove } = todoSlice.actions;
 
 export const selectTodos = (state: RootState) =>
-  state.todos.collection.findAll();
+  state.todos.entities.filter((entity) => entity.deletedAt === undefined);
+
+export const selectUpdatedTodos = (state: RootState) =>
+  state.todos.entities.filter(
+    (entity) => entity.updatedAt !== undefined && entity.deletedAt === undefined
+  );
+
+export const selectDeletedTodos = (state: RootState) =>
+  state.todos.entities.filter((entity) => entity.deletedAt !== undefined);
 
 export default todoSlice.reducer;
