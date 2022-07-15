@@ -3,10 +3,10 @@ import todoReducer, {
   update,
   remove,
   selectTodos,
+  selectUpdatedTodos,
   selectDeletedTodos,
   TodoState,
   TodoUpdatePayload,
-  selectUpdatedTodos,
 } from './todosSlice';
 import { TodoEntityType, TodoInput, createTodoEntity } from './todo.entity';
 import { RootState } from '@/src/app/store';
