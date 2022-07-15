@@ -1,41 +1,17 @@
-import { FC, useState } from 'react';
-import { useAppSelector, useAppDispatch } from '@/src/app/hooks';
-import {
-  add,
-  update,
-  remove,
-  selectTodos,
-  selectUpdatedTodos,
-  selectDeletedTodos,
-  TodoUpdatePayload,
-  TodosSelectorType,
-} from './todosSlice';
-import type { TodoInput, TodoId } from './todo.entity';
-
-const displayFlagMap = {
-  all: '全て（削除済みは除く）',
-  updated: '更新済み（削除済みは除く）',
-  deleted: '削除済み',
-};
-type DisplayFlagType = keyof typeof displayFlagMap;
-
-const selectSelectorByDisplayFlag = (
-  flag: DisplayFlagType
-): TodosSelectorType => {
-  if (flag === 'updated') return selectUpdatedTodos;
-  if (flag === 'deleted') return selectDeletedTodos;
-
-  return selectTodos;
-};
+import { FC } from 'react';
+import { useTodos, DISPLAY_FLAG_MAP, DisplayFlagType } from './useTodos';
 
 export const TodoList: FC = () => {
-  const [todoInput, setTodoInput] = useState<TodoInput>({
-    title: '',
-    body: '',
-  });
-  const [displayFlag, setDisplayFlag] = useState<DisplayFlagType>('all');
-  const todos = useAppSelector(selectSelectorByDisplayFlag(displayFlag));
-  const dispatch = useAppDispatch();
+  const {
+    todos,
+    todoInput,
+    displayFlag,
+    setTodoInput,
+    setDisplayFlag,
+    addTodo,
+    updateTodo,
+    removeTodo,
+  } = useTodos();
 
   const onChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (
     event
@@ -46,22 +22,12 @@ export const TodoList: FC = () => {
     });
   };
 
-  const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = (event) => {
-    event.preventDefault();
-    dispatch(
-      add({
-        title: todoInput.title,
-        body: todoInput.body,
-      })
-    );
-  };
-
-  const updateTodo = (payload: TodoUpdatePayload) => {
-    dispatch(update(payload));
-  };
-
-  const removeTodo = (payload: TodoId) => {
-    dispatch(remove(payload));
+  const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    addTodo({
+      title: todoInput.title,
+      body: todoInput.body,
+    });
   };
 
   return (
@@ -72,7 +38,7 @@ export const TodoList: FC = () => {
           value={displayFlag}
           onChange={(e) => setDisplayFlag(e.target.value as DisplayFlagType)}
         >
-          {Object.entries(displayFlagMap).map(([key, value]) => {
+          {Object.entries(DISPLAY_FLAG_MAP).map(([key, value]) => {
             return (
               <option key={key} value={key}>
                 {value}

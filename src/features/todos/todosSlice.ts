@@ -27,6 +27,10 @@ export const todoSlice = createSlice({
   initialState,
   reducers: {
     add: (state, action: PayloadAction<TodoInput>) => {
+      const { title, body } = action.payload;
+      if (!title || !body)
+        throw new Error('タイトルと本文の両方を入力してください');
+
       const entity = createTodoEntity(action.payload);
       state.entities.push(entity);
     },
