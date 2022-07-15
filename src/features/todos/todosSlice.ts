@@ -1,4 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  createAsyncThunk,
+  SerializedError,
+} from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '@/src/app/store';
 import {
@@ -8,9 +12,12 @@ import {
   createTodoEntity,
 } from './todo.entity';
 import { getCurrentDateTime } from '@/src/utils/date';
+import { fetchTodos } from './todosAPI';
 
 export type TodoState = {
   entities: TodoEntityType[];
+  status: 'idle' | 'loading';
+  error: SerializedError | null;
 };
 
 export type TodoUpdatePayload = {
@@ -20,6 +27,8 @@ export type TodoUpdatePayload = {
 
 const initialState: TodoState = {
   entities: [],
+  status: 'idle',
+  error: null,
 };
 
 export const todoSlice = createSlice({
@@ -58,7 +67,31 @@ export const todoSlice = createSlice({
       };
     },
   },
+  extraReducers(builder) {
+    builder
+      .addCase(fetchTodosAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchTodosAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.error = null;
+        state.entities = action.payload;
+      })
+      .addCase(fetchTodosAsync.rejected, (state, action) => {
+        state.status = 'idle';
+        state.error = action.error;
+      });
+  },
 });
+
+export const fetchTodosAsync = createAsyncThunk<TodoEntityType[]>(
+  `${todoSlice.name}/fetch`,
+  async (_, _thunkAPI) => {
+    const response = await fetchTodos();
+    // // throw new Error('hoo');
+    return response.data;
+  }
+);
 
 export const { add, update, remove } = todoSlice.actions;
 

@@ -1,7 +1,9 @@
-import todoReducer, {
+import { SerializedError } from '@reduxjs/toolkit';
+import todosReducer, {
   add,
   update,
   remove,
+  fetchTodosAsync,
   selectTodos,
   selectUpdatedTodos,
   selectDeletedTodos,
@@ -14,11 +16,15 @@ import { RootState } from '@/src/app/store';
 describe('todos reducer', () => {
   const initialState: TodoState = {
     entities: [],
+    status: 'idle',
+    error: null,
   };
 
   it('should handle initial state', () => {
-    expect(todoReducer(undefined, { type: 'unknown' })).toEqual({
+    expect(todosReducer(undefined, { type: 'unknown' })).toEqual({
       entities: [],
+      status: 'idle',
+      error: null,
     });
   });
 
@@ -27,7 +33,7 @@ describe('todos reducer', () => {
       title: 'title1',
       body: 'body1',
     };
-    const actual = todoReducer(initialState, add(payload));
+    const actual = todosReducer(initialState, add(payload));
     const entities = actual.entities;
     expect(entities.length).toEqual(1);
     expect(entities[0].title).toEqual(payload.title);
@@ -43,7 +49,7 @@ describe('todos reducer', () => {
       title: 'before update title',
       body: 'bofore update body',
     };
-    const stateAfterAdd = todoReducer(initialState, add(payloadForAdd));
+    const stateAfterAdd = todosReducer(initialState, add(payloadForAdd));
     const targetTodoId = stateAfterAdd.entities[0].id;
 
     const payloadForUpdate: TodoUpdatePayload = {
@@ -54,7 +60,7 @@ describe('todos reducer', () => {
       },
     };
 
-    const stateAfterUpdate = todoReducer(
+    const stateAfterUpdate = todosReducer(
       stateAfterAdd,
       update(payloadForUpdate)
     );
@@ -71,14 +77,16 @@ describe('todos reducer', () => {
   it('should handle remove', () => {
     const initialState: TodoState = {
       entities: [],
+      status: 'idle',
+      error: null,
     };
     const payloadForAdd: TodoInput = {
       title: 'before remove',
       body: 'bofore remove',
     };
-    const stateAfterAdd = todoReducer(initialState, add(payloadForAdd));
+    const stateAfterAdd = todosReducer(initialState, add(payloadForAdd));
     const targetTodoId = stateAfterAdd.entities[0].id;
-    const stateAfterRemove = todoReducer(stateAfterAdd, remove(targetTodoId));
+    const stateAfterRemove = todosReducer(stateAfterAdd, remove(targetTodoId));
     const entity = stateAfterRemove.entities.find(
       (entity) => entity.id === targetTodoId
     );
@@ -158,13 +166,81 @@ describe('todos selector', () => {
             deletedAt: '9999-99-99 00:00:00',
           }),
         ] as TodoEntityType[],
+        status: 'idle',
+        error: null,
       },
     } as RootState;
-
     const selectedTodos = selectUpdatedTodos(state);
     expect(selectedTodos.length).toEqual(1);
     expect(selectedTodos[0].title).toEqual('title 1');
     expect(selectedTodos[0].body).toEqual('body 1');
     expect(selectedTodos[0].updatedAt).toEqual('8888-88-88 00:00:00');
+  });
+});
+
+describe('todos async thunk', () => {
+  it('sets loading state when pending', async () => {
+    const state: TodoState = {
+      entities: [],
+      status: 'idle',
+      error: null,
+    };
+
+    const action = {
+      type: fetchTodosAsync.pending.type,
+    };
+
+    const newState = todosReducer(state, action);
+    expect(newState).toEqual({
+      entities: [],
+      status: 'loading',
+      error: null,
+    });
+  });
+
+  it('sets status idle and new todo entities when fulfilled', async () => {
+    const state: TodoState = {
+      entities: [],
+      status: 'loading',
+      error: null,
+    };
+
+    const todoEntity = createTodoEntity({
+      title: 'title999',
+      body: '999',
+    });
+    const action = {
+      type: fetchTodosAsync.fulfilled.type,
+      payload: [todoEntity],
+    };
+
+    const newState = todosReducer(state, action);
+    expect(newState).toEqual({
+      entities: [todoEntity],
+      status: 'idle',
+      error: null,
+    });
+  });
+
+  it('sets status idle and error with error object.', async () => {
+    const state: TodoState = {
+      entities: [],
+      status: 'loading',
+      error: null,
+    };
+
+    const action = {
+      type: fetchTodosAsync.rejected.type,
+      error: {
+        message: 'Rejected!',
+      } as SerializedError,
+    };
+
+    const newState = todosReducer(state, action);
+    expect(newState).toEqual({
+      entities: [],
+      status: 'idle',
+      error: action.error,
+    });
   });
 });
