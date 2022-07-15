@@ -5,16 +5,36 @@ import {
   update,
   remove,
   selectTodos,
+  selectUpdatedTodos,
+  selectDeletedTodos,
   TodoUpdatePayload,
+  TodosSelectorType,
 } from './todosSlice';
 import type { TodoInput, TodoId } from './todo.entity';
+
+const displayFlagMap = {
+  all: '全て（削除済みは除く）',
+  updated: '更新済み（削除済みは除く）',
+  deleted: '削除済み',
+};
+type DisplayFlagType = keyof typeof displayFlagMap;
+
+const selectSelectorByDisplayFlag = (
+  flag: DisplayFlagType
+): TodosSelectorType => {
+  if (flag === 'updated') return selectUpdatedTodos;
+  if (flag === 'deleted') return selectDeletedTodos;
+
+  return selectTodos;
+};
 
 export const TodoList: FC = () => {
   const [todoInput, setTodoInput] = useState<TodoInput>({
     title: '',
     body: '',
   });
-  const todos = useAppSelector(selectTodos);
+  const [displayFlag, setDisplayFlag] = useState<DisplayFlagType>('all');
+  const todos = useAppSelector(selectSelectorByDisplayFlag(displayFlag));
   const dispatch = useAppDispatch();
 
   const onChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (
@@ -46,6 +66,21 @@ export const TodoList: FC = () => {
 
   return (
     <div>
+      <div>
+        閲覧フラグ
+        <select
+          value={displayFlag}
+          onChange={(e) => setDisplayFlag(e.target.value as DisplayFlagType)}
+        >
+          {Object.entries(displayFlagMap).map(([key, value]) => {
+            return (
+              <option key={key} value={key}>
+                {value}
+              </option>
+            );
+          })}
+        </select>
+      </div>
       <form onSubmit={onSubmitHandler}>
         <div>
           <label>
@@ -82,6 +117,7 @@ export const TodoList: FC = () => {
             <th>ステータス</th>
             <th>作成日時</th>
             <th>更新日時</th>
+            <th>削除日時</th>
             <th>更新ボタン</th>
             <th>削除ボタン</th>
           </tr>
@@ -96,6 +132,7 @@ export const TodoList: FC = () => {
                 <td>{todo.status}</td>
                 <td>{todo.createdAt}</td>
                 <td>{todo.updatedAt ?? '無し'}</td>
+                <td>{todo.deletedAt ?? '無し'}</td>
                 <td>
                   <button
                     onClick={() => {

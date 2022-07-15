@@ -69,4 +69,8 @@ export const selectUpdatedTodos = (state: RootState) =>
 export const selectDeletedTodos = (state: RootState) =>
   state.todos.entities.filter((entity) => entity.deletedAt !== undefined);
 
+export type TodosSelectorType = typeof selectTodos &
+  typeof selectUpdatedTodos &
+  typeof selectDeletedTodos;
+
 export default todoSlice.reducer;
