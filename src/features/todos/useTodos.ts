@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '@/src/app/hooks';
 import type { TodoInput, TodoId } from './todo.entity';
 import {
   add,
   update,
   remove,
+  fetchTodosAsync,
   selectTodos,
   selectUpdatedTodos,
   selectDeletedTodos,
@@ -36,6 +37,10 @@ export const useTodos = () => {
   const [displayFlag, setDisplayFlag] = useState<DisplayFlagType>('all');
   const todos = useAppSelector(selectSelectorByDisplayFlag(displayFlag));
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchTodosAsync());
+  }, []);
 
   const addTodo = (payload: TodoInput) => {
     try {
