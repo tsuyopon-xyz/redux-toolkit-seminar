@@ -39,7 +39,10 @@ export const useTodos = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchTodosAsync());
+    // ファイルを保存するたびにfetchTodosAsyncが走るため、
+    // 保存のたびにtodosが更新されるのを止めたい場合は、
+    // ここのdispatchをコメントアウトする
+    // dispatch(fetchTodosAsync());
   }, []);
 
   const addTodo = (payload: TodoInput) => {

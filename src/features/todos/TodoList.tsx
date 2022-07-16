@@ -85,7 +85,9 @@ export const TodoList: FC = () => {
             <th>更新日時</th>
             <th>削除日時</th>
             <th>更新ボタン</th>
-            <th>削除ボタン</th>
+            <th>
+              {displayFlag === 'deleted' ? '削除取り消しボタン' : '削除ボタン'}
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -101,6 +103,7 @@ export const TodoList: FC = () => {
                 <td>{todo.deletedAt ?? '無し'}</td>
                 <td>
                   <button
+                    disabled={displayFlag === 'deleted'}
                     onClick={() => {
                       updateTodo({
                         id: todo.id,
@@ -114,13 +117,23 @@ export const TodoList: FC = () => {
                   </button>
                 </td>
                 <td>
-                  <button
-                    onClick={() => {
-                      removeTodo(todo.id);
-                    }}
-                  >
-                    削除
-                  </button>
+                  {displayFlag === 'deleted' ? (
+                    <button
+                      onClick={() => {
+                        console.log('削除取り消し機能の実装');
+                      }}
+                    >
+                      削除取り消し
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        removeTodo(todo.id);
+                      }}
+                    >
+                      削除
+                    </button>
+                  )}
                 </td>
               </tr>
             );
