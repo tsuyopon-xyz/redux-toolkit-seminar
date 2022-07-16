@@ -42,7 +42,7 @@ export const useTodos = () => {
     // ファイルを保存するたびにfetchTodosAsyncが走るため、
     // 保存のたびにtodosが更新されるのを止めたい場合は、
     // ここのdispatchをコメントアウトする
-    // dispatch(fetchTodosAsync());
+    dispatch(fetchTodosAsync());
   }, []);
 
   const addTodo = (payload: TodoInput) => {

@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { useTodos, DISPLAY_FLAG_MAP, DisplayFlagType } from './useTodos';
+import { useDeleteModal } from './DeleteModal/useDeleteModal';
 
 export const TodoList: FC = () => {
   const {
@@ -12,6 +13,7 @@ export const TodoList: FC = () => {
     updateTodo,
     removeTodo,
   } = useTodos();
+  const { open, DeleteModalWrapper } = useDeleteModal();
 
   const onChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (
     event
@@ -32,6 +34,8 @@ export const TodoList: FC = () => {
 
   return (
     <div>
+      {/* <DeleteModal onDelete={() => {}} onCancel={() => {}} /> */}
+      <DeleteModalWrapper />
       <div>
         閲覧フラグ
         <select
@@ -128,7 +132,7 @@ export const TodoList: FC = () => {
                   ) : (
                     <button
                       onClick={() => {
-                        removeTodo(todo.id);
+                        open(() => removeTodo(todo.id));
                       }}
                     >
                       削除

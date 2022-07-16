@@ -5,8 +5,8 @@ import { TodoList } from '@/src/features/todos/TodoList';
 const App: FC = () => {
   return (
     <div>
-      <Counter />
-      <hr />
+      {/* <Counter />
+      <hr /> */}
       <TodoList />
     </div>
   );
