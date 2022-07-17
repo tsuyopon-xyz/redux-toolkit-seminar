@@ -12,7 +12,8 @@ import {
   createTodoEntity,
 } from './todo.entity';
 import { getCurrentDateTime } from '@/src/utils/date';
-import { fetchTodos } from './todosAPI';
+import { fetchTodos } from './api/todosAPI';
+import { setTodos } from './localStorage/todosLocalStorage';
 
 export type TodoState = {
   entities: TodoEntityType[];
@@ -42,6 +43,7 @@ export const todoSlice = createSlice({
 
       const entity = createTodoEntity(action.payload);
       state.entities.push(entity);
+      setTodos(state.entities);
     },
     update: (state, action: PayloadAction<TodoUpdatePayload>) => {
       const { id, input } = action.payload;
@@ -54,6 +56,7 @@ export const todoSlice = createSlice({
         ...input,
         updatedAt: getCurrentDateTime(),
       };
+      setTodos(state.entities);
     },
     remove: (state, action: PayloadAction<TodoId>) => {
       const id = action.payload;
@@ -65,6 +68,7 @@ export const todoSlice = createSlice({
         ...entity,
         deletedAt: getCurrentDateTime(),
       };
+      setTodos(state.entities);
     },
   },
   extraReducers(builder) {
