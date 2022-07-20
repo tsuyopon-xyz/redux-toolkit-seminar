@@ -2,6 +2,7 @@ import { FC, useState } from 'react';
 import { Modal } from '@/src/components/shared/Modal';
 import styles from './index.module.css';
 import { TODO_STATUSES, TodoInput, TodoStatus } from '../../todo.entity';
+import { translateStatus } from '../../utils/todo-converter';
 
 export type OnOKHandlerType = (newInput: TodoInput) => void;
 
@@ -72,7 +73,7 @@ export const UpdateTodoModal: FC<Props> = ({
             {TODO_STATUSES.map((status) => {
               return (
                 <option key={status} value={status}>
-                  {status}
+                  {translateStatus(status)}
                 </option>
               );
             })}

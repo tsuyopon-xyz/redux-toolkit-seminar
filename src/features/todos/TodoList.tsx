@@ -2,15 +2,14 @@ import { FC } from 'react';
 import { useTodos, DISPLAY_FLAG_MAP, DisplayFlagType } from './useTodos';
 import { useConfirmModal } from './modals/ConfirmModal/useConfirmModal';
 import { useUpdateTodoModal } from './modals/UpdateTodoModal/useUpdateTodoModal';
+import { translateStatus } from './utils/todo-converter';
 
 export const TodoList: FC = () => {
   const {
     todos,
     todoInput,
     displayFlag,
-    // setTodoInput,
     setDisplayFlag,
-
     addTodo,
     updateTodo,
     removeTodo,
@@ -46,7 +45,6 @@ export const TodoList: FC = () => {
 
   return (
     <div>
-      {/* <DeleteModal onDelete={() => {}} onCancel={() => {}} /> */}
       <ConfirmModalWrapper />
       <UpdateTodoModalWrapper />
       <div>
@@ -114,7 +112,7 @@ export const TodoList: FC = () => {
                 <td>{todo.id}</td>
                 <td>{todo.title}</td>
                 <td>{todo.body}</td>
-                <td>{todo.status}</td>
+                <td>{translateStatus(todo.status)}</td>
                 <td>{todo.createdAt}</td>
                 <td>{todo.updatedAt ?? '無し'}</td>
                 <td>{todo.deletedAt ?? '無し'}</td>
