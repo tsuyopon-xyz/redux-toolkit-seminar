@@ -1,13 +1,14 @@
 import { FC } from 'react';
 import { useTodos, DISPLAY_FLAG_MAP, DisplayFlagType } from './useTodos';
 import { useConfirmModal } from './modals/ConfirmModal/useConfirmModal';
+import { useUpdateTodoModal } from './modals/UpdateTodoModal/useUpdateTodoModal';
 
 export const TodoList: FC = () => {
   const {
     todos,
     todoInput,
     displayFlag,
-    setTodoInput,
+    // setTodoInput,
     setDisplayFlag,
 
     addTodo,
@@ -15,7 +16,16 @@ export const TodoList: FC = () => {
     removeTodo,
     restoreTodo,
   } = useTodos();
-  const { open, setMessage, ConfirmModalWrapper } = useConfirmModal();
+  const {
+    open: openConfirmModal,
+    setMessage,
+    ConfirmModalWrapper,
+  } = useConfirmModal();
+  const {
+    open: openUpdateTodoModal,
+    setTodoInput,
+    UpdateTodoModalWrapper,
+  } = useUpdateTodoModal();
 
   const onChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (
     event
@@ -38,6 +48,7 @@ export const TodoList: FC = () => {
     <div>
       {/* <DeleteModal onDelete={() => {}} onCancel={() => {}} /> */}
       <ConfirmModalWrapper />
+      <UpdateTodoModalWrapper />
       <div>
         閲覧フラグ
         <select
@@ -111,11 +122,12 @@ export const TodoList: FC = () => {
                   <button
                     disabled={displayFlag === 'deleted'}
                     onClick={() => {
-                      updateTodo({
-                        id: todo.id,
-                        input: {
-                          title: '更新したタイトル',
-                        },
+                      setTodoInput(todo);
+                      openUpdateTodoModal((newTodoInput) => {
+                        updateTodo({
+                          id: newTodoInput.id!,
+                          input: newTodoInput,
+                        });
                       });
                     }}
                   >
@@ -127,7 +139,7 @@ export const TodoList: FC = () => {
                     <button
                       onClick={() => {
                         setMessage('削除を取り消しますか？');
-                        open(() => restoreTodo(todo.id));
+                        openConfirmModal(() => restoreTodo(todo.id));
                       }}
                     >
                       削除取り消し
@@ -136,7 +148,7 @@ export const TodoList: FC = () => {
                     <button
                       onClick={() => {
                         setMessage('本当に削除しますか？');
-                        open(() => removeTodo(todo.id));
+                        openConfirmModal(() => removeTodo(todo.id));
                       }}
                     >
                       削除

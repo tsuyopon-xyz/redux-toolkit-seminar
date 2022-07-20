@@ -5,12 +5,16 @@ import { DateTime, getCurrentDateTime } from '@/src/utils/date';
 
 export type TodoId = string;
 
-type TodoStatus =
-  | 'waiting'
-  | 'working'
-  | 'pending'
-  | 'discontinued'
-  | 'completed';
+// 配列の値からtypeを作成する際に参考にしたページ
+// https://github.com/microsoft/TypeScript/issues/28046#issuecomment-607145719
+export const TODO_STATUSES = <const>[
+  'waiting',
+  'working',
+  'pending',
+  'discontinued',
+  'completed',
+];
+export type TodoStatus = typeof TODO_STATUSES[number];
 
 export type TodoInput = {
   id?: TodoId;

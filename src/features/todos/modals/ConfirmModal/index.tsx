@@ -22,7 +22,6 @@ export const ConfirmModal: FC<Props> = ({
         <button
           className={`${styles.button}`}
           onClick={(e) => {
-            console.log('キャンセル処理をする');
             (e.target as HTMLInputElement).blur();
             if (!onClickCancel) return;
 
@@ -34,7 +33,6 @@ export const ConfirmModal: FC<Props> = ({
         <button
           className={`${styles.button} ${styles.okButton}`}
           onClick={(e) => {
-            console.log('削除処理をする');
             (e.target as HTMLInputElement).blur();
 
             onClickOK();
