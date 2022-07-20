@@ -10,6 +10,7 @@ export const TodoList: FC = () => {
     todoInput,
     displayFlag,
     setDisplayFlag,
+    setTodoInput: setTodoInputForUseTodos,
     addTodo,
     updateTodo,
     removeTodo,
@@ -22,14 +23,14 @@ export const TodoList: FC = () => {
   } = useConfirmModal();
   const {
     open: openUpdateTodoModal,
-    setTodoInput,
+    setTodoInput: setTodoInputForUpdateTodoModal,
     UpdateTodoModalWrapper,
   } = useUpdateTodoModal();
 
   const onChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (
     event
   ) => {
-    setTodoInput({
+    setTodoInputForUseTodos({
       ...todoInput,
       [event.target.name]: event.target.value,
     });
@@ -120,7 +121,7 @@ export const TodoList: FC = () => {
                   <button
                     disabled={displayFlag === 'deleted'}
                     onClick={() => {
-                      setTodoInput(todo);
+                      setTodoInputForUpdateTodoModal(todo);
                       openUpdateTodoModal((newTodoInput) => {
                         updateTodo({
                           id: newTodoInput.id!,
