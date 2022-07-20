@@ -47,24 +47,27 @@ export const UpdateTodoModal: FC<Props> = ({
   return (
     <Modal isOpen={isOpen}>
       <p className={styles.message}>Todoの更新</p>
-      <div>
-        <label>
+      <div className={styles.formContainer}>
+        <div className={styles.formItem}>
+          <label>タイトル</label>
           <input
             type="text"
             name="title"
             value={newInput.title}
             onChange={onChangeTextHandler}
           />
-        </label>
-        <label>
+        </div>
+        <div className={styles.formItem}>
+          <label>本文</label>
           <input
             type="text"
             name="body"
             value={newInput.body}
             onChange={onChangeTextHandler}
           />
-        </label>
-        <label>
+        </div>
+        <div className={styles.formItem}>
+          <label>ステータス</label>
           <select value={newInput.status} onChange={onChangeSelectHandler}>
             {TODO_STATUSES.map((status) => {
               return (
@@ -74,7 +77,7 @@ export const UpdateTodoModal: FC<Props> = ({
               );
             })}
           </select>
-        </label>
+        </div>
       </div>
       <div className={styles.buttonContainer}>
         <button

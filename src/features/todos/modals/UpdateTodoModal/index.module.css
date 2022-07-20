@@ -1,11 +1,28 @@
 .message {
   font-weight: bold;
   font-size: 1.2rem;
+  margin: 0;
+}
+
+.formContainer {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.formItem {
+  display: flex;
+  justify-content: space-between;
+}
+
+.formItem label {
+  margin-right: 12px;
 }
 
 .buttonContainer {
   display: flex;
-  /* justify-content: space-evenly; */
+  margin-top: 16px;
   justify-content: center;
   gap: 16px;
   width: 100%;
