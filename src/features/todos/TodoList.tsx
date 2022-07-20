@@ -51,7 +51,7 @@ export const TodoList: FC = () => {
           })}
         </select>
       </div>
-      <form onSubmit={onSubmitHandler}>
+      <form onSubmit={onSubmitHandler} method="post">
         <div>
           <label>
             タイトル :{' '}
