@@ -1,6 +1,6 @@
 ## このレポジトリの概要
 
-このレポジトリ（redux-toolkit-seminar）は、「**React**」「**Redux Toolkit**」「**TypeScript**」の習得を目的とした勉強会で利用する予定のものです。（2022年7月21日現在）
+このレポジトリ（redux-toolkit-seminar）は、「**React**」「**Redux Toolkit**」「**TypeScript**」の習得を目的としたオンライン勉強会で使う予定のものです。（2022年7月21日現在）
 
 勉強会の詳細は、Notionに「[React × Redux Toolkit × TypeScriptでTodoアプリを作ろう（全4,5回を予定）](https://tsuyoshi.notion.site/React-Redux-Toolkit-TypeScript-Todo-4-5-5e1c3304c37b4e3a9a065751b629bfc1)」というタイトルでまとめております。
 
@@ -25,6 +25,27 @@
 - 勉強会に興味ある
 
 といった方は、最初の方でも共有した「[React × Redux Toolkit × TypeScriptでTodoアプリを作ろう（全4,5回を予定）](https://tsuyoshi.notion.site/React-Redux-Toolkit-TypeScript-Todo-4-5-5e1c3304c37b4e3a9a065751b629bfc1)」に参加方法についてもまとめているので、そちらのページをご確認いただけたらと思います。
+
+
+
+## 勉強会のスケジュール（随時変更の可能性あり）
+
+2022年7月21日現在、勉強会のスケジュールは以下を考えております。
+
+- 第1回目 ReactとTypeScriptの概要を掴む（早く進めば第2回目の内容も先取るかも）
+- 第2回目 Redux ToolkitのTutorialsを一緒に見ながら進める（Counterの実装を通して、Redux Toolkitの使い方のイメージを掴む）
+- 第3回目 Redux ToolkitでTodoのデータ管理を行う（第2回目のTutorialsを参考に、オリジナル機能の実装）
+- 第4回目 第3回目で実装したTodoのデータ管理（Redux Toolkitを使った実装）をReactに組み込む
+- 第5回目 第4回目が終わらなかったら、第4回目の続きをやる（時間に余裕があれば、テストコードの解説をする）
+
+
+ どの回も、1回あたり「1~2時間」くらいを想定しています。（状況によっては3時間を超える場合もありえる）
+ 
+ また、学んだことを定着してもらうため、勉強会のあとは**課題を出す予定**です。 そして、**課題を提出した方のみ、次の回の勉強会に参加できる**ような形式にしようかなと考えています。
+ 
+Notionのページ「[React × Redux Toolkit × TypeScriptでTodoアプリを作ろう（全4,5回を予定）](https://tsuyoshi.notion.site/React-Redux-Toolkit-TypeScript-Todo-4-5-5e1c3304c37b4e3a9a065751b629bfc1)」でも書いてある通り、課題でつまづいて、チャットや画面共有しながらのビデオ通話での個別サポートが欲しい人向けの対応も考えています。（サポート条件あり。詳細はNotionのページをご確認ください）
+
+課題がうまく進めれられない場合は、こちらの個別サポートも有効に活用していただけたらと思います。
 
 
 ## その他
