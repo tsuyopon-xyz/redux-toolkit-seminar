@@ -43,7 +43,7 @@
  
  また、学んだことを定着してもらうため、勉強会のあとは**課題を出す予定**です。 そして、**課題を提出した方のみ、次の回の勉強会に参加できる**ような形式にしようかなと考えています。
  
-Notionのページ「[React × Redux Toolkit × TypeScriptでTodoアプリを作ろう（全4,5回を予定）](https://tsuyoshi.notion.site/React-Redux-Toolkit-TypeScript-Todo-4-5-5e1c3304c37b4e3a9a065751b629bfc1)」でも書いてある通り、課題でつまづいて、チャットや画面共有しながらのビデオ通話での個別サポートが欲しい人向けの対応も考えています。（サポート条件あり。詳細はNotionのページをご確認ください）
+Notionのページ「[React × Redux Toolkit × TypeScriptでTodoアプリを作ろう（全4,5回を予定）](https://tsuyoshi.notion.site/React-Redux-Toolkit-TypeScript-Todo-4-5-5e1c3304c37b4e3a9a065751b629bfc1)」でも書いてある通り、課題でつまづいて、チャットや画面共有しながらのビデオ通話での個別サポートが欲しい人向けの対応も考えています。（人数制限などのサポート条件あり。詳細はNotionのページにも軽く書いていますが、不明点があれば、このページの最後に書いてある「LINE公式アカウント」 or 「Twitter」までご連絡いただけたらと思います）
 
 課題がうまく進めれられない場合は、こちらの個別サポートも有効に活用していただけたらと思います。
 
