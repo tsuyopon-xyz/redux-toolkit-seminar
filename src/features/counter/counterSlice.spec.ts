@@ -53,13 +53,13 @@ describe('counter actions', () => {
 
 describe('counter selector', () => {
   it('should return counter value by the selectCount function', () => {
-    const state: RootState = {
+    const state = {
       counter: {
         value: 100,
         status: 'idle',
         error: null,
       },
-    };
+    } as RootState;
 
     expect(selectCount(state)).toEqual(100);
   });
