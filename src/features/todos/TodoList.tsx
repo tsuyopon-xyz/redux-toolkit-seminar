@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { useTodos, DISPLAY_FLAG_MAP, DisplayFlagType } from './useTodos';
-import { useDeleteModal } from './DeleteModal/useDeleteModal';
+import { useConfirmModal } from './ConfirmModal/useConfirmModal';
 
 export const TodoList: FC = () => {
   const {
@@ -9,12 +9,13 @@ export const TodoList: FC = () => {
     displayFlag,
     setTodoInput,
     setDisplayFlag,
+
     addTodo,
     updateTodo,
     removeTodo,
     restoreTodo,
   } = useTodos();
-  const { open, DeleteModalWrapper } = useDeleteModal();
+  const { open, setMessage, ConfirmModalWrapper } = useConfirmModal();
 
   const onChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (
     event
@@ -36,7 +37,7 @@ export const TodoList: FC = () => {
   return (
     <div>
       {/* <DeleteModal onDelete={() => {}} onCancel={() => {}} /> */}
-      <DeleteModalWrapper />
+      <ConfirmModalWrapper />
       <div>
         閲覧フラグ
         <select
@@ -125,8 +126,8 @@ export const TodoList: FC = () => {
                   {displayFlag === 'deleted' ? (
                     <button
                       onClick={() => {
-                        console.log('削除取り消し機能の実装');
-                        restoreTodo(todo.id);
+                        setMessage('削除を取り消しますか？');
+                        open(() => restoreTodo(todo.id));
                       }}
                     >
                       削除取り消し
@@ -134,6 +135,7 @@ export const TodoList: FC = () => {
                   ) : (
                     <button
                       onClick={() => {
+                        setMessage('本当に削除しますか？');
                         open(() => removeTodo(todo.id));
                       }}
                     >

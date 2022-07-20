@@ -4,18 +4,20 @@ import styles from './index.module.css';
 
 type Props = {
   isOpen: boolean;
+  message?: string;
   onClickCancel?: () => void;
-  onClickDelete: () => void;
+  onClickOK: () => void;
 };
 
-export const DeleteModal: FC<Props> = ({
+export const ConfirmModal: FC<Props> = ({
   onClickCancel,
-  onClickDelete,
+  onClickOK,
   isOpen,
+  message,
 }) => {
   return (
     <Modal isOpen={isOpen}>
-      <p className={styles.title}>本当に削除しますか？</p>
+      <p className={styles.message}>{message}</p>
       <div className={styles.buttonContainer}>
         <button
           className={`${styles.button}`}
@@ -27,18 +29,18 @@ export const DeleteModal: FC<Props> = ({
             onClickCancel();
           }}
         >
-          キャンセル
+          いいえ
         </button>
         <button
-          className={`${styles.button} ${styles.deleteButton}`}
+          className={`${styles.button} ${styles.okButton}`}
           onClick={(e) => {
             console.log('削除処理をする');
             (e.target as HTMLInputElement).blur();
 
-            onClickDelete();
+            onClickOK();
           }}
         >
-          削除する
+          はい
         </button>
       </div>
     </Modal>
