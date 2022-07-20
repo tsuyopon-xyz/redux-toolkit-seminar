@@ -5,6 +5,7 @@ import {
   add,
   update,
   remove,
+  restore,
   fetchTodosAsync,
   selectTodos,
   selectUpdatedTodos,
@@ -71,6 +72,10 @@ export const useTodos = () => {
     dispatch(remove(payload));
   };
 
+  const restoreTodo = (payload: TodoId) => {
+    dispatch(restore(payload));
+  };
+
   return {
     todos,
     todoInput,
@@ -80,7 +85,6 @@ export const useTodos = () => {
     addTodo,
     updateTodo,
     removeTodo,
+    restoreTodo,
   };
 };
-
-export default useTodos;

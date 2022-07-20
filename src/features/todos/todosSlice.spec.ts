@@ -3,6 +3,7 @@ import todosReducer, {
   add,
   update,
   remove,
+  restore,
   fetchTodosAsync,
   selectTodos,
   selectUpdatedTodos,
@@ -91,6 +92,34 @@ describe('todos reducer', () => {
       (entity) => entity.id === targetTodoId
     );
     expect(entity?.deletedAt).not.toEqual(undefined);
+  });
+
+  it('should handle restore', () => {
+    const initialState: TodoState = {
+      entities: [],
+      status: 'idle',
+      error: null,
+    };
+    const payloadForAdd: TodoInput = {
+      title: 'before remove',
+      body: 'bofore remove',
+    };
+    const stateAfterAdd = todosReducer(initialState, add(payloadForAdd));
+    const targetTodoId = stateAfterAdd.entities[0].id;
+    const stateAfterRemove = todosReducer(stateAfterAdd, remove(targetTodoId));
+    const entityAfterRemove = stateAfterRemove.entities.find(
+      (entity) => entity.id === targetTodoId
+    );
+    expect(entityAfterRemove?.deletedAt).not.toEqual(undefined);
+
+    const stateAfterRestore = todosReducer(
+      stateAfterRemove,
+      restore(targetTodoId)
+    );
+    const entityAfterRestore = stateAfterRestore.entities.find(
+      (entity) => entity.id === targetTodoId
+    );
+    expect(entityAfterRestore?.deletedAt).toEqual(undefined);
   });
 });
 

@@ -12,6 +12,7 @@ export const TodoList: FC = () => {
     addTodo,
     updateTodo,
     removeTodo,
+    restoreTodo,
   } = useTodos();
   const { open, DeleteModalWrapper } = useDeleteModal();
 
@@ -125,6 +126,7 @@ export const TodoList: FC = () => {
                     <button
                       onClick={() => {
                         console.log('削除取り消し機能の実装');
+                        restoreTodo(todo.id);
                       }}
                     >
                       削除取り消し

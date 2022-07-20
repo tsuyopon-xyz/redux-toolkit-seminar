@@ -1,3 +1,5 @@
+// https://kenjimorita.jp/jest-uuid-v4-syntaxerror-unexpected-token-export/
+// 「uuid.v4()」がjestで通らなかったので、上記記事を参考に、uuidのバージョンを特定のものにした
 import { v4 as uuidv4 } from 'uuid';
 import { DateTime, getCurrentDateTime } from '@/src/utils/date';
 

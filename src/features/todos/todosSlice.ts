@@ -70,6 +70,18 @@ export const todoSlice = createSlice({
       };
       setTodos(state.entities);
     },
+    restore: (state, action: PayloadAction<TodoId>) => {
+      const id = action.payload;
+      const index = state.entities.findIndex((_entity) => _entity.id === id);
+      const entity = state.entities[index];
+      if (!entity) return;
+
+      state.entities[index] = {
+        ...entity,
+        deletedAt: undefined,
+      };
+      setTodos(state.entities);
+    },
   },
   extraReducers(builder) {
     builder
@@ -97,7 +109,7 @@ export const fetchTodosAsync = createAsyncThunk<TodoEntityType[]>(
   }
 );
 
-export const { add, update, remove } = todoSlice.actions;
+export const { add, update, remove, restore } = todoSlice.actions;
 
 export const selectTodos = (state: RootState) =>
   state.todos.entities.filter((entity) => entity.deletedAt === undefined);
