@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { useTodos, DISPLAY_FLAG_MAP, DisplayFlagType } from './useTodos';
-import { useConfirmModal } from './ConfirmModal/useConfirmModal';
+import { useConfirmModal } from './modals/ConfirmModal/useConfirmModal';
 
 export const TodoList: FC = () => {
   const {
