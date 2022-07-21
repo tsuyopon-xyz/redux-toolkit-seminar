@@ -1,5 +1,5 @@
 import { useState, FC } from 'react';
-import type { TodoInput } from './todo.entity';
+import type { TodoInput } from '../todo.entity';
 
 type Props = {
   onSubmit: (input: TodoInput) => void;

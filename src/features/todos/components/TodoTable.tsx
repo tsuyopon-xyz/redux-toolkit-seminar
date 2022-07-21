@@ -1,7 +1,7 @@
 import type { FC } from 'react';
-import type { TodoEntityType, TodoId, TodoInput } from './todo.entity';
-import type { DisplayFlagType } from './useTodos';
-import { translateStatus } from './utils/todo-converter';
+import type { TodoEntityType, TodoId, TodoInput } from '../todo.entity';
+import type { DisplayFlagType } from '../hooks/useTodos';
+import { translateStatus } from '../utils/todo-converter';
 import { useConfirmModal } from './modals/ConfirmModal/useConfirmModal';
 import { useUpdateTodoModal } from './modals/UpdateTodoModal/useUpdateTodoModal';
 

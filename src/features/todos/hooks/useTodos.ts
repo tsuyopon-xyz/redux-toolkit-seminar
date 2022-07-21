@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '@/src/app/hooks';
-import type { TodoInput, TodoId } from './todo.entity';
+import type { TodoInput, TodoId } from '../todo.entity';
 import {
   add,
   update,
@@ -13,7 +13,7 @@ import {
   selectIsLoading,
   TodosSelectorType,
   TodoUpdatePayload,
-} from './todosSlice';
+} from '../todosSlice';
 
 export const DISPLAY_FLAG_MAP = {
   all: '全て（削除済みは除く）',

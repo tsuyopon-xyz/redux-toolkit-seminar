@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { useTodos, DISPLAY_FLAG_MAP, DisplayFlagType } from './useTodos';
+import { useTodos, DISPLAY_FLAG_MAP, DisplayFlagType } from '../hooks/useTodos';
 import { TodoForm } from './TodoForm';
 import { TodoTable } from './TodoTable';
 
