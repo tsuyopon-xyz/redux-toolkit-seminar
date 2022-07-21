@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '@/src/app/hooks';
-import type { TodoInput, TodoId } from './todo.entity';
+import type { TodoInput, TodoId } from '../todo.entity';
 import {
   add,
   update,
@@ -10,9 +10,10 @@ import {
   selectTodos,
   selectUpdatedTodos,
   selectDeletedTodos,
+  selectIsLoading,
   TodosSelectorType,
   TodoUpdatePayload,
-} from './todosSlice';
+} from '../todosSlice';
 
 export const DISPLAY_FLAG_MAP = {
   all: '全て（削除済みは除く）',
@@ -31,13 +32,11 @@ const selectSelectorByDisplayFlag = (
 };
 
 export const useTodos = () => {
-  const [todoInput, setTodoInput] = useState<TodoInput>({
-    title: '',
-    body: '',
-  });
   const [displayFlag, setDisplayFlag] = useState<DisplayFlagType>('all');
   const todos = useAppSelector(selectSelectorByDisplayFlag(displayFlag));
+  const isLoading = useAppSelector(selectIsLoading);
   const dispatch = useAppDispatch();
+  console.log(displayFlag, todos);
 
   useEffect(() => {
     // ファイルを保存するたびにfetchTodosAsyncが走るため、
@@ -47,21 +46,7 @@ export const useTodos = () => {
   }, []);
 
   const addTodo = (payload: TodoInput) => {
-    try {
-      dispatch(add(payload));
-      setTodoInput({
-        title: '',
-        body: '',
-      });
-      // input:textにあたっているフォーカスを解除
-      // エンターキーでTodoを追加したときの対処
-      const activeElement = document.activeElement;
-      if (!activeElement) return;
-      (activeElement as HTMLInputElement).blur();
-    } catch (error) {
-      console.log(error);
-      alert(error);
-    }
+    dispatch(add(payload));
   };
 
   const updateTodo = (payload: TodoUpdatePayload) => {
@@ -78,9 +63,8 @@ export const useTodos = () => {
 
   return {
     todos,
-    todoInput,
     displayFlag,
-    setTodoInput,
+    isLoading,
     setDisplayFlag,
     addTodo,
     updateTodo,

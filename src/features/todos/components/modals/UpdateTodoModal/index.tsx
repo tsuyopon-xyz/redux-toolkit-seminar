@@ -1,8 +1,8 @@
 import { FC, useState } from 'react';
 import { Modal } from '@/src/components/shared/Modal';
 import styles from './index.module.css';
-import { TODO_STATUSES, TodoInput, TodoStatus } from '../../todo.entity';
-import { translateStatus } from '../../utils/todo-converter';
+import { TODO_STATUSES, TodoInput, TodoStatus } from '../../../todo.entity';
+import { translateStatus } from '../../../utils/todo-converter';
 
 export type OnOKHandlerType = (newInput: TodoInput) => void;
 

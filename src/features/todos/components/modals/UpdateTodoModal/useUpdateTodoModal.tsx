@@ -1,7 +1,7 @@
 // 参考にしたコード: https://github.com/microcmsio/react-hooks-use-modal/blob/master/src/index.tsx
 import { useState, useCallback } from 'react';
 import { UpdateTodoModal, OnOKHandlerType } from './index';
-import { TodoInput } from '../../todo.entity';
+import { TodoInput } from '../../../todo.entity';
 
 export const useUpdateTodoModal = () => {
   const [todoInput, setTodoInput] = useState<TodoInput | undefined>();
