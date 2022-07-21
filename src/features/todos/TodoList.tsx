@@ -3,15 +3,14 @@ import { useTodos, DISPLAY_FLAG_MAP, DisplayFlagType } from './useTodos';
 import { useConfirmModal } from './modals/ConfirmModal/useConfirmModal';
 import { useUpdateTodoModal } from './modals/UpdateTodoModal/useUpdateTodoModal';
 import { translateStatus } from './utils/todo-converter';
+import { TodoForm } from './TodoForm';
 
 export const TodoList: FC = () => {
   const {
     todos,
-    todoInput,
     displayFlag,
     isLoading,
     setDisplayFlag,
-    setTodoInput: setTodoInputForUseTodos,
     addTodo,
     updateTodo,
     removeTodo,
@@ -28,29 +27,14 @@ export const TodoList: FC = () => {
     UpdateTodoModalWrapper,
   } = useUpdateTodoModal();
 
-  const onChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (
-    event
-  ) => {
-    setTodoInputForUseTodos({
-      ...todoInput,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-    addTodo({
-      title: todoInput.title,
-      body: todoInput.body,
-    });
-  };
-
   if (isLoading) return <div>読み込み中...</div>;
 
   return (
     <div>
       <ConfirmModalWrapper />
       <UpdateTodoModalWrapper />
+      <TodoForm onSubmit={(input) => addTodo(input)} />
+      <hr />
       <div>
         閲覧フラグ
         <select
@@ -66,33 +50,7 @@ export const TodoList: FC = () => {
           })}
         </select>
       </div>
-      <form onSubmit={onSubmitHandler} method="post">
-        <div>
-          <label>
-            タイトル :{' '}
-            <input
-              onChange={onChangeHandler}
-              type="text"
-              name="title"
-              value={todoInput.title}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            本文 :{' '}
-            <input
-              onChange={onChangeHandler}
-              type="text"
-              name="body"
-              value={todoInput.body}
-            />
-          </label>
-        </div>
-        <div>
-          <input type="submit" value="作成" />
-        </div>
-      </form>
+
       <table border={1}>
         <thead>
           <tr>

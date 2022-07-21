@@ -32,14 +32,11 @@ const selectSelectorByDisplayFlag = (
 };
 
 export const useTodos = () => {
-  const [todoInput, setTodoInput] = useState<TodoInput>({
-    title: '',
-    body: '',
-  });
   const [displayFlag, setDisplayFlag] = useState<DisplayFlagType>('all');
   const todos = useAppSelector(selectSelectorByDisplayFlag(displayFlag));
   const isLoading = useAppSelector(selectIsLoading);
   const dispatch = useAppDispatch();
+  console.log(displayFlag, todos);
 
   useEffect(() => {
     // ファイルを保存するたびにfetchTodosAsyncが走るため、
@@ -51,15 +48,6 @@ export const useTodos = () => {
   const addTodo = (payload: TodoInput) => {
     try {
       dispatch(add(payload));
-      setTodoInput({
-        title: '',
-        body: '',
-      });
-      // input:textにあたっているフォーカスを解除
-      // エンターキーでTodoを追加したときの対処
-      const activeElement = document.activeElement;
-      if (!activeElement) return;
-      (activeElement as HTMLInputElement).blur();
     } catch (error) {
       console.log(error);
       alert(error);
@@ -80,10 +68,8 @@ export const useTodos = () => {
 
   return {
     todos,
-    todoInput,
     displayFlag,
     isLoading,
-    setTodoInput,
     setDisplayFlag,
     addTodo,
     updateTodo,
