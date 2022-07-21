@@ -9,8 +9,8 @@
 
 全4~5回の勉強会を通して、最終的には以下のリンクで紹介しているTodoアプリを作成していただこうと考えています。
 
-- 紹介動画（後ほど動画リンクを貼る）
-- [サンプルアプリ（Todoアプリ）](https://redux-toolkit-seminar.vercel.app/)
+- [「React × Redux Toolkit × TypeScriptでTodoアプリを作ろう」の紹介動画](https://www.youtube.com/watch?v=Ag49vDtn464)（YouTube）
+- [サンプルアプリ](https://redux-toolkit-seminar.vercel.app/)（Todoアプリ）
 
 
 上記リンク先のサンプルアプリは、まさにこのレポジトリのコードをそのまま利用しているので、全く同じものを作りたい場合は、このレポジトリのコードを参考にしていただけたらと思います。
