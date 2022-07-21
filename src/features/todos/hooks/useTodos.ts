@@ -46,12 +46,7 @@ export const useTodos = () => {
   }, []);
 
   const addTodo = (payload: TodoInput) => {
-    try {
-      dispatch(add(payload));
-    } catch (error) {
-      console.log(error);
-      alert(error);
-    }
+    dispatch(add(payload));
   };
 
   const updateTodo = (payload: TodoUpdatePayload) => {

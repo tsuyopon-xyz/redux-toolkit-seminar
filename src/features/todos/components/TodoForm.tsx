@@ -22,16 +22,20 @@ export const TodoForm: FC<Props> = ({ onSubmit }) => {
 
   const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    onSubmit(todoInput);
-    setTodoInput({
-      title: '',
-      body: '',
-    });
-    // input:textにあたっているフォーカスを解除
-    // エンターキーでTodoを追加したときの対処
-    const activeElement = document.activeElement;
-    if (!activeElement) return;
-    (activeElement as HTMLInputElement).blur();
+    try {
+      onSubmit(todoInput);
+      setTodoInput({
+        title: '',
+        body: '',
+      });
+      // input:textにあたっているフォーカスを解除
+      // エンターキーでTodoを追加したときの対処
+      const activeElement = document.activeElement;
+      if (!activeElement) return;
+      (activeElement as HTMLInputElement).blur();
+    } catch (error) {
+      alert(error);
+    }
   };
 
   return (
