@@ -122,6 +122,9 @@ export const selectUpdatedTodos = (state: RootState) =>
 export const selectDeletedTodos = (state: RootState) =>
   state.todos.entities.filter((entity) => entity.deletedAt !== undefined);
 
+export const selectIsLoading = (state: RootState) =>
+  state.todos.status === 'loading';
+
 export type TodosSelectorType = typeof selectTodos &
   typeof selectUpdatedTodos &
   typeof selectDeletedTodos;

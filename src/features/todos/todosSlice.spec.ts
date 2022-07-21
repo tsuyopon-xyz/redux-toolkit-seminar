@@ -8,6 +8,7 @@ import todosReducer, {
   selectTodos,
   selectUpdatedTodos,
   selectDeletedTodos,
+  selectIsLoading,
   TodoState,
   TodoUpdatePayload,
 } from './todosSlice';
@@ -204,6 +205,30 @@ describe('todos selector', () => {
     expect(selectedTodos[0].title).toEqual('title 1');
     expect(selectedTodos[0].body).toEqual('body 1');
     expect(selectedTodos[0].updatedAt).toEqual('8888-88-88 00:00:00');
+  });
+
+  it('should return true when status is loading', () => {
+    const state = {
+      todos: {
+        entities: [] as TodoEntityType[],
+        status: 'loading',
+        error: null,
+      },
+    } as RootState;
+
+    expect(selectIsLoading(state)).toEqual(true);
+  });
+
+  it('should return false when status is idle', () => {
+    const state = {
+      todos: {
+        entities: [] as TodoEntityType[],
+        status: 'idle',
+        error: null,
+      },
+    } as RootState;
+
+    expect(selectIsLoading(state)).toEqual(false);
   });
 });
 
