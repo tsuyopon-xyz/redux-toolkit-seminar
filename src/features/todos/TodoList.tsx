@@ -9,6 +9,7 @@ export const TodoList: FC = () => {
     todos,
     todoInput,
     displayFlag,
+    isLoading,
     setDisplayFlag,
     setTodoInput: setTodoInputForUseTodos,
     addTodo,
@@ -43,6 +44,8 @@ export const TodoList: FC = () => {
       body: todoInput.body,
     });
   };
+
+  if (isLoading) return <div>読み込み中...</div>;
 
   return (
     <div>
@@ -107,56 +110,64 @@ export const TodoList: FC = () => {
           </tr>
         </thead>
         <tbody>
-          {todos.map((todo) => {
-            return (
-              <tr key={todo.id}>
-                <td>{todo.id}</td>
-                <td>{todo.title}</td>
-                <td>{todo.body}</td>
-                <td>{translateStatus(todo.status)}</td>
-                <td>{todo.createdAt}</td>
-                <td>{todo.updatedAt ?? '無し'}</td>
-                <td>{todo.deletedAt ?? '無し'}</td>
-                <td>
-                  <button
-                    disabled={displayFlag === 'deleted'}
-                    onClick={() => {
-                      setTodoInputForUpdateTodoModal(todo);
-                      openUpdateTodoModal((newTodoInput) => {
-                        updateTodo({
-                          id: newTodoInput.id!,
-                          input: newTodoInput,
+          {todos.length === 0 ? (
+            <tr>
+              <td colSpan={9} style={{ textAlign: 'center' }}>
+                データなし
+              </td>
+            </tr>
+          ) : (
+            todos.map((todo) => {
+              return (
+                <tr key={todo.id}>
+                  <td>{todo.id}</td>
+                  <td>{todo.title}</td>
+                  <td>{todo.body}</td>
+                  <td>{translateStatus(todo.status)}</td>
+                  <td>{todo.createdAt}</td>
+                  <td>{todo.updatedAt ?? '無し'}</td>
+                  <td>{todo.deletedAt ?? '無し'}</td>
+                  <td>
+                    <button
+                      disabled={displayFlag === 'deleted'}
+                      onClick={() => {
+                        setTodoInputForUpdateTodoModal(todo);
+                        openUpdateTodoModal((newTodoInput) => {
+                          updateTodo({
+                            id: newTodoInput.id!,
+                            input: newTodoInput,
+                          });
                         });
-                      });
-                    }}
-                  >
-                    更新
-                  </button>
-                </td>
-                <td>
-                  {displayFlag === 'deleted' ? (
-                    <button
-                      onClick={() => {
-                        setMessage('削除を取り消しますか？');
-                        openConfirmModal(() => restoreTodo(todo.id));
                       }}
                     >
-                      削除取り消し
+                      更新
                     </button>
-                  ) : (
-                    <button
-                      onClick={() => {
-                        setMessage('本当に削除しますか？');
-                        openConfirmModal(() => removeTodo(todo.id));
-                      }}
-                    >
-                      削除
-                    </button>
-                  )}
-                </td>
-              </tr>
-            );
-          })}
+                  </td>
+                  <td>
+                    {displayFlag === 'deleted' ? (
+                      <button
+                        onClick={() => {
+                          setMessage('削除を取り消しますか？');
+                          openConfirmModal(() => restoreTodo(todo.id));
+                        }}
+                      >
+                        削除取り消し
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          setMessage('本当に削除しますか？');
+                          openConfirmModal(() => removeTodo(todo.id));
+                        }}
+                      >
+                        削除
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              );
+            })
+          )}
         </tbody>
       </table>
     </div>

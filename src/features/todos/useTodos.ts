@@ -10,6 +10,7 @@ import {
   selectTodos,
   selectUpdatedTodos,
   selectDeletedTodos,
+  selectIsLoading,
   TodosSelectorType,
   TodoUpdatePayload,
 } from './todosSlice';
@@ -37,6 +38,7 @@ export const useTodos = () => {
   });
   const [displayFlag, setDisplayFlag] = useState<DisplayFlagType>('all');
   const todos = useAppSelector(selectSelectorByDisplayFlag(displayFlag));
+  const isLoading = useAppSelector(selectIsLoading);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -80,6 +82,7 @@ export const useTodos = () => {
     todos,
     todoInput,
     displayFlag,
+    isLoading,
     setTodoInput,
     setDisplayFlag,
     addTodo,
